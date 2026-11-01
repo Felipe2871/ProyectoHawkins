@@ -27,17 +27,21 @@ public class ProyectoHawkins{
         
     switch(opcionMenu){
         case 1:
-        sensorMedido = leerLecturaSegura(teclado, "Introduce lectura µT: "); 
+        sensorMedido = leerLecturaSegura( sc, "Introduce lectura µT: "); 
+        
         codigoRiesgo = evaluarNivelRiesgo(sensorMedido);
+        
         porcentajeEstado = calcularPorcentajeTruncado(sensorMedido, MAX_ENERGIA); 
+        
         portalAbierto = ejecutarProtocoloAccion(codigoRiesgo);
-            System.out.println("Capacidad: " + MAX_ENERGIA + "%");
+        
+            System.out.println("Capacidad: " + porcentajeEstado + "%");
             System.out.println("El portal esta avierto: " + portalAbierto);
         
             break;
             
         case 2:
-        simularMuestreoContinuo(teclado, LIMITE_RIESGO);
+        simularMuestreoContinuo( sc, LIMITE_RIESGO);
             break;
             
         case 0:
@@ -49,11 +53,9 @@ public class ProyectoHawkins{
     
     
     }  
-        
-        
-        
-        
-    }
+ sc.close();        
+}
+    
     public static void mostrarEncabezado(String operador) {
         /* % = "obligatorio" en Printf.  -35 = reserva 35 espacios hacia la derecha 
             existen los tipos s = string f = float c = char b = boolean y otros.
@@ -62,9 +64,9 @@ public class ProyectoHawkins{
         */
         System.out.printf("Hola, %s%n", operador);
         System.out.printf("\t--- SISTEMA HAWKINS ---%n");
-        System.out.printf("%s %-35s \n", "\t1.", "Inspeccionar Sensor Individual");
-        System.out.printf("%s %-35s \n", "\t2.", "Iniciar Muestreo Continuo");
-        System.out.printf("%s %-35s \n", "\t0.", "Salir de la Consola");
+        System.out.printf("%-2s %-35s %n", "\t1.", "Inspeccionar Sensor Individual");
+        System.out.printf("%-2s %-35s %n", "\t2.", "Iniciar Muestreo Continuo");
+        System.out.printf("%-2s %-35s %n", "\t0.", "Salir de la Consola");
         System.out.println("");
     }
     
@@ -75,7 +77,7 @@ public class ProyectoHawkins{
         while (!valido) {
             try {
                 System.out.print(mensaje);
-                lectura = sc.nexdouble();
+                lectura = teclado.nextDouble();
                 valido = true;
             } catch (InputMismatchException e) {
                 System.out.println("Error: Entrada inválida. Introduce un número decimal.");
@@ -142,7 +144,7 @@ public class ProyectoHawkins{
             System.out.printf("Media: %.2f µT\n", (suma / contador));
         }
     }
-    
+   
 }
 
   
